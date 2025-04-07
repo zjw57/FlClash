@@ -382,7 +382,9 @@ extension ColorSchemesExt on ColorSchemes {
             );
     }
     return lightColorScheme != null
-        ? ColorScheme.fromSeed(seedColor: lightColorScheme!.primary,dynamicSchemeVariant: DynamicSchemeVariant.vibrant)
+        ? ColorScheme.fromSeed(
+            seedColor: lightColorScheme!.primary,
+            dynamicSchemeVariant: DynamicSchemeVariant.vibrant)
         : ColorScheme.fromSeed(seedColor: defaultPrimaryColor);
   }
 }
@@ -500,4 +502,21 @@ class PopupMenuItemData {
   final VoidCallback? onPressed;
   final IconData? icon;
   final PopupMenuItemType? type;
+}
+
+@freezed
+class NavigationBarData with _$NavigationBarData {
+  const factory NavigationBarData({
+    required List<NavigationBarItem> items,
+    required int selectedIndex,
+    required Function(int index) onSelected,
+  }) = _NavigationBarData;
+}
+
+@freezed
+class NavigationBarItem with _$NavigationBarItem{
+  const factory NavigationBarItem({
+    required PageLabel label,
+    required Icon icon,
+  }) = _NavigationBarItem;
 }

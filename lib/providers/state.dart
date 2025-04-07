@@ -152,12 +152,10 @@ VpnState vpnState(Ref ref) {
 HomeState homeState(Ref ref) {
   final pageLabel = ref.watch(currentPageLabelProvider);
   final navigationItems = ref.watch(currentNavigationsStateProvider).value;
-  final viewMode = ref.watch(viewModeProvider);
   final locale = ref.watch(appSettingProvider).locale;
   return HomeState(
     pageLabel: pageLabel,
     navigationItems: navigationItems,
-    viewMode: viewMode,
     locale: locale,
   );
 }

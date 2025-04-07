@@ -1,19 +1,22 @@
 import 'package:fl_clash/common/common.dart';
 import 'package:fl_clash/enum/enum.dart';
 import 'package:fl_clash/models/models.dart';
+import 'package:fl_clash/providers/app.dart';
+import 'package:fl_clash/providers/config.dart';
 import 'package:fl_clash/state.dart';
 import 'package:fl_clash/widgets/fade_box.dart';
 import 'package:fl_clash/widgets/pop_scope.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
+import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:intl/intl.dart';
 
 import 'chip.dart';
 
 class CommonScaffold extends StatefulWidget {
   final PreferredSizeWidget? appBar;
   final Widget body;
-  final Widget? bottomNavigationBar;
-  final Widget? sideNavigationBar;
+  final NavigationBarData? navigationBarData;
   final Color? backgroundColor;
   final String? title;
   final Widget? leading;
@@ -26,9 +29,8 @@ class CommonScaffold extends StatefulWidget {
     super.key,
     this.appBar,
     required this.body,
-    this.sideNavigationBar,
+    this.navigationBarData,
     this.backgroundColor,
-    this.bottomNavigationBar,
     this.leading,
     this.title,
     this.actions,
@@ -64,12 +66,12 @@ class CommonScaffoldState extends State<CommonScaffold> {
   final ValueNotifier<Widget?> _floatingActionButton = ValueNotifier(null);
   final ValueNotifier<List<String>> _keywordsNotifier = ValueNotifier([]);
   final ValueNotifier<bool> _loading = ValueNotifier(false);
+  final ValueNotifier<NavigationBarData?> _navigationBarDataNotifier =
+      ValueNotifier(null);
 
   final _textController = TextEditingController();
 
   Function(List<String>)? _onKeywordsUpdate;
-
-  Widget? get _sideNavigationBar => widget.sideNavigationBar;
 
   set actions(List<Widget> actions) {
     _appBarState.value = _appBarState.value.copyWith(actions: actions);
@@ -212,10 +214,19 @@ class CommonScaffoldState extends State<CommonScaffold> {
       _textController.text = "";
       _keywordsNotifier.value = [];
       _onKeywordsUpdate = null;
-    } else if (oldWidget.appBarEditState != widget.appBarEditState) {
+    }
+    if (oldWidget.appBarEditState != widget.appBarEditState) {
       _appBarState.value = _appBarState.value.copyWith(
         editState: widget.appBarEditState,
       );
+    }
+    if (oldWidget.appBarEditState != widget.appBarEditState) {
+      _appBarState.value = _appBarState.value.copyWith(
+        editState: widget.appBarEditState,
+      );
+    }
+    if (oldWidget.navigationBarData != widget.navigationBarData) {
+      _navigationBarDataNotifier.value = widget.navigationBarData;
     }
   }
 
@@ -355,9 +366,8 @@ class CommonScaffoldState extends State<CommonScaffold> {
                         Theme.of(context).brightness == Brightness.dark
                             ? Brightness.light
                             : Brightness.dark,
-                    systemNavigationBarColor: widget.bottomNavigationBar != null
-                        ? context.colorScheme.surfaceContainer
-                        : context.colorScheme.surface,
+                    systemNavigationBarColor:
+                        context.colorScheme.surfaceContainer,
                     systemNavigationBarDividerColor: Colors.transparent,
                   ),
                   automaticallyImplyLeading: widget.automaticallyImplyLeading,
@@ -430,32 +440,215 @@ class CommonScaffoldState extends State<CommonScaffold> {
         ),
       ],
     );
-    final scaffold = Scaffold(
-      appBar: widget.appBar ?? _buildAppBar(),
-      body: body,
-      backgroundColor: widget.backgroundColor,
-      floatingActionButton: ValueListenableBuilder<Widget?>(
-        valueListenable: _floatingActionButton,
-        builder: (_, value, __) {
-          return FadeScaleBox(
-            child: value ?? SizedBox(),
-          );
-        },
-      ),
-      bottomNavigationBar: widget.bottomNavigationBar,
+    return Consumer(
+      builder: (_, ref, __) {
+        final isMobile = ref.watch(isMobileViewProvider);
+        return ValueListenableBuilder(
+          valueListenable: _navigationBarDataNotifier,
+          builder: (_, navigationBarData, __) {
+            return ValueListenableBuilder<Widget?>(
+              valueListenable: _floatingActionButton,
+              builder: (_, floatingActionButton, __) {
+                final scaffold = Scaffold(
+                  appBar: widget.appBar ?? _buildAppBar(),
+                  body: body,
+                  backgroundColor: widget.backgroundColor,
+                  floatingActionButton: isMobile ? floatingActionButton : null,
+                  bottomNavigationBar: isMobile && navigationBarData != null
+                      ? CommonNavigationBar(
+                          isMobile: isMobile,
+                          navigationData: navigationBarData,
+                        )
+                      : null,
+                );
+                if (!isMobile && navigationBarData != null) {
+                  return Row(
+                    mainAxisSize: MainAxisSize.min,
+                    children: [
+                      CommonNavigationBar(
+                        isMobile: isMobile,
+                        fab: floatingActionButton,
+                        navigationData: navigationBarData,
+                      ),
+                      Expanded(
+                        flex: 1,
+                        child: scaffold,
+                      ),
+                    ],
+                  );
+                }
+                return scaffold;
+              },
+            );
+          },
+        );
+      },
     );
-    return _sideNavigationBar != null
-        ? Row(
-            mainAxisSize: MainAxisSize.min,
-            children: [
-              _sideNavigationBar!,
-              Expanded(
-                flex: 1,
-                child: scaffold,
+  }
+}
+
+class CommonNavigationBar extends ConsumerWidget {
+  final bool isMobile;
+  final NavigationBarData navigationData;
+  final Widget? fab;
+
+  const CommonNavigationBar({
+    super.key,
+    required this.isMobile,
+    required this.navigationData,
+    this.fab,
+  });
+
+  @override
+  Widget build(BuildContext context, ref) {
+    if (isMobile) {
+      return NavigationBarTheme(
+        data: _NavigationBarDefaultsM3(context),
+        child: NavigationBar(
+          destinations: navigationData.items
+              .map(
+                (e) => NavigationDestination(
+                  icon: e.icon,
+                  label: Intl.message(e.label.name),
+                ),
+              )
+              .toList(),
+          onDestinationSelected: navigationData.onSelected,
+          selectedIndex: navigationData.selectedIndex,
+        ),
+      );
+    }
+    final showLabel =
+        ref.watch(appSettingProvider.select((state) => state.showLabel));
+    return Material(
+      color: context.colorScheme.surfaceContainer,
+      child: Column(
+        children: [
+          Expanded(
+            child: SingleChildScrollView(
+              padding: EdgeInsets.only(
+                top: 12,
               ),
-            ],
-          )
-        : scaffold;
+              child: IntrinsicHeight(
+                child: NavigationRail(
+                  leading: FadeThroughBox(
+                    child: fab ??
+                        Image.asset(
+                          'assets/images/icon.png',
+                          width: 56,
+                          height: 56,
+                        ),
+                  ),
+                  backgroundColor: context.colorScheme.surfaceContainer,
+                  selectedIconTheme: IconThemeData(
+                    color: context.colorScheme.onSurfaceVariant,
+                  ),
+                  unselectedIconTheme: IconThemeData(
+                    color: context.colorScheme.onSurfaceVariant,
+                  ),
+                  selectedLabelTextStyle:
+                      context.textTheme.labelLarge!.copyWith(
+                    color: context.colorScheme.onSurface,
+                  ),
+                  unselectedLabelTextStyle:
+                      context.textTheme.labelLarge!.copyWith(
+                    color: context.colorScheme.onSurface,
+                  ),
+                  destinations: navigationData.items
+                      .map(
+                        (e) => NavigationRailDestination(
+                          icon: e.icon,
+                          label: Text(
+                            Intl.message(e.label.name),
+                          ),
+                        ),
+                      )
+                      .toList(),
+                  onDestinationSelected: navigationData.onSelected,
+                  extended: false,
+                  selectedIndex: navigationData.selectedIndex,
+                  labelType: showLabel
+                      ? NavigationRailLabelType.all
+                      : NavigationRailLabelType.none,
+                ),
+              ),
+            ),
+          ),
+          const SizedBox(
+            height: 16,
+          ),
+          IconButton(
+            onPressed: () {
+              ref.read(appSettingProvider.notifier).updateState(
+                    (state) => state.copyWith(
+                      showLabel: !state.showLabel,
+                    ),
+                  );
+            },
+            icon: const Icon(Icons.menu),
+          ),
+          const SizedBox(
+            height: 16,
+          ),
+        ],
+      ),
+    );
+  }
+}
+
+class _NavigationBarDefaultsM3 extends NavigationBarThemeData {
+  _NavigationBarDefaultsM3(this.context)
+      : super(
+          height: 80.0,
+          elevation: 3.0,
+          labelBehavior: NavigationDestinationLabelBehavior.alwaysShow,
+        );
+
+  final BuildContext context;
+  late final ColorScheme _colors = Theme.of(context).colorScheme;
+  late final TextTheme _textTheme = Theme.of(context).textTheme;
+
+  @override
+  Color? get backgroundColor => _colors.surfaceContainer;
+
+  @override
+  Color? get shadowColor => Colors.transparent;
+
+  @override
+  Color? get surfaceTintColor => Colors.transparent;
+
+  @override
+  WidgetStateProperty<IconThemeData?>? get iconTheme {
+    return WidgetStateProperty.resolveWith((Set<WidgetState> states) {
+      return IconThemeData(
+        size: 24.0,
+        color: states.contains(WidgetState.disabled)
+            ? _colors.onSurfaceVariant.opacity38
+            : states.contains(WidgetState.selected)
+                ? _colors.onSecondaryContainer
+                : _colors.onSurfaceVariant,
+      );
+    });
+  }
+
+  @override
+  Color? get indicatorColor => _colors.secondaryContainer;
+
+  @override
+  ShapeBorder? get indicatorShape => const StadiumBorder();
+
+  @override
+  WidgetStateProperty<TextStyle?>? get labelTextStyle {
+    return WidgetStateProperty.resolveWith((Set<WidgetState> states) {
+      final TextStyle style = _textTheme.labelMedium!;
+      return style.apply(
+          overflow: TextOverflow.ellipsis,
+          color: states.contains(WidgetState.disabled)
+              ? _colors.onSurfaceVariant.opacity38
+              : states.contains(WidgetState.selected)
+                  ? _colors.onSurface
+                  : _colors.onSurfaceVariant);
+    });
   }
 }
 

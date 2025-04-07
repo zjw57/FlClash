@@ -2955,3 +2955,334 @@ abstract class _Field implements Field {
   _$$FieldImplCopyWith<_$FieldImpl> get copyWith =>
       throw _privateConstructorUsedError;
 }
+
+/// @nodoc
+mixin _$NavigationBarData {
+  List<NavigationBarItem> get items => throw _privateConstructorUsedError;
+  int get selectedIndex => throw _privateConstructorUsedError;
+  dynamic Function(int) get onSelected => throw _privateConstructorUsedError;
+
+  /// Create a copy of NavigationBarData
+  /// with the given fields replaced by the non-null parameter values.
+  @JsonKey(includeFromJson: false, includeToJson: false)
+  $NavigationBarDataCopyWith<NavigationBarData> get copyWith =>
+      throw _privateConstructorUsedError;
+}
+
+/// @nodoc
+abstract class $NavigationBarDataCopyWith<$Res> {
+  factory $NavigationBarDataCopyWith(
+          NavigationBarData value, $Res Function(NavigationBarData) then) =
+      _$NavigationBarDataCopyWithImpl<$Res, NavigationBarData>;
+  @useResult
+  $Res call(
+      {List<NavigationBarItem> items,
+      int selectedIndex,
+      dynamic Function(int) onSelected});
+}
+
+/// @nodoc
+class _$NavigationBarDataCopyWithImpl<$Res, $Val extends NavigationBarData>
+    implements $NavigationBarDataCopyWith<$Res> {
+  _$NavigationBarDataCopyWithImpl(this._value, this._then);
+
+  // ignore: unused_field
+  final $Val _value;
+  // ignore: unused_field
+  final $Res Function($Val) _then;
+
+  /// Create a copy of NavigationBarData
+  /// with the given fields replaced by the non-null parameter values.
+  @pragma('vm:prefer-inline')
+  @override
+  $Res call({
+    Object? items = null,
+    Object? selectedIndex = null,
+    Object? onSelected = null,
+  }) {
+    return _then(_value.copyWith(
+      items: null == items
+          ? _value.items
+          : items // ignore: cast_nullable_to_non_nullable
+              as List<NavigationBarItem>,
+      selectedIndex: null == selectedIndex
+          ? _value.selectedIndex
+          : selectedIndex // ignore: cast_nullable_to_non_nullable
+              as int,
+      onSelected: null == onSelected
+          ? _value.onSelected
+          : onSelected // ignore: cast_nullable_to_non_nullable
+              as dynamic Function(int),
+    ) as $Val);
+  }
+}
+
+/// @nodoc
+abstract class _$$NavigationBarDataImplCopyWith<$Res>
+    implements $NavigationBarDataCopyWith<$Res> {
+  factory _$$NavigationBarDataImplCopyWith(_$NavigationBarDataImpl value,
+          $Res Function(_$NavigationBarDataImpl) then) =
+      __$$NavigationBarDataImplCopyWithImpl<$Res>;
+  @override
+  @useResult
+  $Res call(
+      {List<NavigationBarItem> items,
+      int selectedIndex,
+      dynamic Function(int) onSelected});
+}
+
+/// @nodoc
+class __$$NavigationBarDataImplCopyWithImpl<$Res>
+    extends _$NavigationBarDataCopyWithImpl<$Res, _$NavigationBarDataImpl>
+    implements _$$NavigationBarDataImplCopyWith<$Res> {
+  __$$NavigationBarDataImplCopyWithImpl(_$NavigationBarDataImpl _value,
+      $Res Function(_$NavigationBarDataImpl) _then)
+      : super(_value, _then);
+
+  /// Create a copy of NavigationBarData
+  /// with the given fields replaced by the non-null parameter values.
+  @pragma('vm:prefer-inline')
+  @override
+  $Res call({
+    Object? items = null,
+    Object? selectedIndex = null,
+    Object? onSelected = null,
+  }) {
+    return _then(_$NavigationBarDataImpl(
+      items: null == items
+          ? _value._items
+          : items // ignore: cast_nullable_to_non_nullable
+              as List<NavigationBarItem>,
+      selectedIndex: null == selectedIndex
+          ? _value.selectedIndex
+          : selectedIndex // ignore: cast_nullable_to_non_nullable
+              as int,
+      onSelected: null == onSelected
+          ? _value.onSelected
+          : onSelected // ignore: cast_nullable_to_non_nullable
+              as dynamic Function(int),
+    ));
+  }
+}
+
+/// @nodoc
+
+class _$NavigationBarDataImpl implements _NavigationBarData {
+  const _$NavigationBarDataImpl(
+      {required final List<NavigationBarItem> items,
+      required this.selectedIndex,
+      required this.onSelected})
+      : _items = items;
+
+  final List<NavigationBarItem> _items;
+  @override
+  List<NavigationBarItem> get items {
+    if (_items is EqualUnmodifiableListView) return _items;
+    // ignore: implicit_dynamic_type
+    return EqualUnmodifiableListView(_items);
+  }
+
+  @override
+  final int selectedIndex;
+  @override
+  final dynamic Function(int) onSelected;
+
+  @override
+  String toString() {
+    return 'NavigationBarData(items: $items, selectedIndex: $selectedIndex, onSelected: $onSelected)';
+  }
+
+  @override
+  bool operator ==(Object other) {
+    return identical(this, other) ||
+        (other.runtimeType == runtimeType &&
+            other is _$NavigationBarDataImpl &&
+            const DeepCollectionEquality().equals(other._items, _items) &&
+            (identical(other.selectedIndex, selectedIndex) ||
+                other.selectedIndex == selectedIndex) &&
+            (identical(other.onSelected, onSelected) ||
+                other.onSelected == onSelected));
+  }
+
+  @override
+  int get hashCode => Object.hash(runtimeType,
+      const DeepCollectionEquality().hash(_items), selectedIndex, onSelected);
+
+  /// Create a copy of NavigationBarData
+  /// with the given fields replaced by the non-null parameter values.
+  @JsonKey(includeFromJson: false, includeToJson: false)
+  @override
+  @pragma('vm:prefer-inline')
+  _$$NavigationBarDataImplCopyWith<_$NavigationBarDataImpl> get copyWith =>
+      __$$NavigationBarDataImplCopyWithImpl<_$NavigationBarDataImpl>(
+          this, _$identity);
+}
+
+abstract class _NavigationBarData implements NavigationBarData {
+  const factory _NavigationBarData(
+          {required final List<NavigationBarItem> items,
+          required final int selectedIndex,
+          required final dynamic Function(int) onSelected}) =
+      _$NavigationBarDataImpl;
+
+  @override
+  List<NavigationBarItem> get items;
+  @override
+  int get selectedIndex;
+  @override
+  dynamic Function(int) get onSelected;
+
+  /// Create a copy of NavigationBarData
+  /// with the given fields replaced by the non-null parameter values.
+  @override
+  @JsonKey(includeFromJson: false, includeToJson: false)
+  _$$NavigationBarDataImplCopyWith<_$NavigationBarDataImpl> get copyWith =>
+      throw _privateConstructorUsedError;
+}
+
+/// @nodoc
+mixin _$NavigationBarItem {
+  PageLabel get label => throw _privateConstructorUsedError;
+  Icon get icon => throw _privateConstructorUsedError;
+
+  /// Create a copy of NavigationBarItem
+  /// with the given fields replaced by the non-null parameter values.
+  @JsonKey(includeFromJson: false, includeToJson: false)
+  $NavigationBarItemCopyWith<NavigationBarItem> get copyWith =>
+      throw _privateConstructorUsedError;
+}
+
+/// @nodoc
+abstract class $NavigationBarItemCopyWith<$Res> {
+  factory $NavigationBarItemCopyWith(
+          NavigationBarItem value, $Res Function(NavigationBarItem) then) =
+      _$NavigationBarItemCopyWithImpl<$Res, NavigationBarItem>;
+  @useResult
+  $Res call({PageLabel label, Icon icon});
+}
+
+/// @nodoc
+class _$NavigationBarItemCopyWithImpl<$Res, $Val extends NavigationBarItem>
+    implements $NavigationBarItemCopyWith<$Res> {
+  _$NavigationBarItemCopyWithImpl(this._value, this._then);
+
+  // ignore: unused_field
+  final $Val _value;
+  // ignore: unused_field
+  final $Res Function($Val) _then;
+
+  /// Create a copy of NavigationBarItem
+  /// with the given fields replaced by the non-null parameter values.
+  @pragma('vm:prefer-inline')
+  @override
+  $Res call({
+    Object? label = null,
+    Object? icon = null,
+  }) {
+    return _then(_value.copyWith(
+      label: null == label
+          ? _value.label
+          : label // ignore: cast_nullable_to_non_nullable
+              as PageLabel,
+      icon: null == icon
+          ? _value.icon
+          : icon // ignore: cast_nullable_to_non_nullable
+              as Icon,
+    ) as $Val);
+  }
+}
+
+/// @nodoc
+abstract class _$$NavigationBarItemImplCopyWith<$Res>
+    implements $NavigationBarItemCopyWith<$Res> {
+  factory _$$NavigationBarItemImplCopyWith(_$NavigationBarItemImpl value,
+          $Res Function(_$NavigationBarItemImpl) then) =
+      __$$NavigationBarItemImplCopyWithImpl<$Res>;
+  @override
+  @useResult
+  $Res call({PageLabel label, Icon icon});
+}
+
+/// @nodoc
+class __$$NavigationBarItemImplCopyWithImpl<$Res>
+    extends _$NavigationBarItemCopyWithImpl<$Res, _$NavigationBarItemImpl>
+    implements _$$NavigationBarItemImplCopyWith<$Res> {
+  __$$NavigationBarItemImplCopyWithImpl(_$NavigationBarItemImpl _value,
+      $Res Function(_$NavigationBarItemImpl) _then)
+      : super(_value, _then);
+
+  /// Create a copy of NavigationBarItem
+  /// with the given fields replaced by the non-null parameter values.
+  @pragma('vm:prefer-inline')
+  @override
+  $Res call({
+    Object? label = null,
+    Object? icon = null,
+  }) {
+    return _then(_$NavigationBarItemImpl(
+      label: null == label
+          ? _value.label
+          : label // ignore: cast_nullable_to_non_nullable
+              as PageLabel,
+      icon: null == icon
+          ? _value.icon
+          : icon // ignore: cast_nullable_to_non_nullable
+              as Icon,
+    ));
+  }
+}
+
+/// @nodoc
+
+class _$NavigationBarItemImpl implements _NavigationBarItem {
+  const _$NavigationBarItemImpl({required this.label, required this.icon});
+
+  @override
+  final PageLabel label;
+  @override
+  final Icon icon;
+
+  @override
+  String toString() {
+    return 'NavigationBarItem(label: $label, icon: $icon)';
+  }
+
+  @override
+  bool operator ==(Object other) {
+    return identical(this, other) ||
+        (other.runtimeType == runtimeType &&
+            other is _$NavigationBarItemImpl &&
+            (identical(other.label, label) || other.label == label) &&
+            (identical(other.icon, icon) || other.icon == icon));
+  }
+
+  @override
+  int get hashCode => Object.hash(runtimeType, label, icon);
+
+  /// Create a copy of NavigationBarItem
+  /// with the given fields replaced by the non-null parameter values.
+  @JsonKey(includeFromJson: false, includeToJson: false)
+  @override
+  @pragma('vm:prefer-inline')
+  _$$NavigationBarItemImplCopyWith<_$NavigationBarItemImpl> get copyWith =>
+      __$$NavigationBarItemImplCopyWithImpl<_$NavigationBarItemImpl>(
+          this, _$identity);
+}
+
+abstract class _NavigationBarItem implements NavigationBarItem {
+  const factory _NavigationBarItem(
+      {required final PageLabel label,
+      required final Icon icon}) = _$NavigationBarItemImpl;
+
+  @override
+  PageLabel get label;
+  @override
+  Icon get icon;
+
+  /// Create a copy of NavigationBarItem
+  /// with the given fields replaced by the non-null parameter values.
+  @override
+  @JsonKey(includeFromJson: false, includeToJson: false)
+  _$$NavigationBarItemImplCopyWith<_$NavigationBarItemImpl> get copyWith =>
+      throw _privateConstructorUsedError;
+}

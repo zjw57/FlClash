@@ -143,7 +143,7 @@ final vpnStateProvider = AutoDisposeProvider<VpnState>.internal(
 @Deprecated('Will be removed in 3.0. Use Ref instead')
 // ignore: unused_element
 typedef VpnStateRef = AutoDisposeProviderRef<VpnState>;
-String _$homeStateHash() => r'2829f5d6a8548f8a97253a5437bf5c498b17c9ba';
+String _$homeStateHash() => r'b76154ce9fb78bbd019cd2ded6b3b92aa3f0fe9f';
 
 /// See also [homeState].
 @ProviderFor(homeState)

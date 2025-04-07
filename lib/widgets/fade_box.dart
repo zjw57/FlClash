@@ -4,10 +4,12 @@ import 'package:flutter/material.dart';
 
 class FadeBox extends StatelessWidget {
   final Widget child;
+  final Alignment? alignment;
 
   const FadeBox({
     super.key,
     required this.child,
+    this.alignment,
   });
 
   @override
@@ -19,7 +21,7 @@ class FadeBox extends StatelessWidget {
         secondaryAnimation,
       ) {
         return Container(
-          alignment: Alignment.centerLeft,
+          alignment: alignment ?? Alignment.centerLeft,
           child: FadeTransition(
             opacity: animation,
             child: child,

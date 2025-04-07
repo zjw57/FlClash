@@ -32,7 +32,6 @@ class GlobalState {
   late CommonTheme theme;
   DateTime? startTime;
   UpdateTasks tasks = [];
-  final safeMessageOffsetNotifier = ValueNotifier(Offset.zero);
   final navigatorKey = GlobalKey<NavigatorState>();
   late AppController appController;
   GlobalKey<CommonScaffoldState> homeScaffoldKey = GlobalKey();

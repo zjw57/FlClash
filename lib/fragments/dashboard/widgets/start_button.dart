@@ -58,6 +58,7 @@ class _StartButtonState extends State<StartButton>
         if (!state.isInit || !state.hasProfile) {
           return Container();
         }
+        final isMobile = ref.watch(isMobileViewProvider);
         ref.listenManual(
           runTimeProvider.select((state) => state != null),
           (prev, next) {
@@ -82,6 +83,23 @@ class _StartButtonState extends State<StartButton>
         return AnimatedBuilder(
           animation: _controller.view,
           builder: (_, child) {
+            if (!isMobile) {
+              return FloatingActionButton(
+                heroTag: null,
+                onPressed: () {
+                  handleSwitchStart();
+                },
+                child: Container(
+                  width: 56,
+                  height: 56,
+                  alignment: Alignment.center,
+                  child: AnimatedIcon(
+                    icon: AnimatedIcons.play_pause,
+                    progress: _controller,
+                  ),
+                ),
+              );
+            }
             return SizedBox(
               width: 56 + textWidth * _controller.value,
               height: 56,
